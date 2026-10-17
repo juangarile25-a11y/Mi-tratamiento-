@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi tratamiento · Seguimiento</title>
+<meta name="theme-color" content="#11111d">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#0c0d16;--panel:#151725;--panel2:#1b1e30;--line:#2c3048;--text:#f3f3ff;--muted:#a4a8c2;--violet:#a78bfa;--cyan:#70dfff;--green:#54d6a0;--yellow:#ffd166;--red:#ff7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#252044 0,transparent 40%),var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#242740;color:var(--text);padding:10px 13px;border-radius:11px;transition:.15s}button:hover{border-color:var(--violet);transform:translateY(-1px)}button.primary{background:linear-gradient(135deg,#7555d9,#4b9acb);border:0;font-weight:700}button.good{background:#173d37;border-color:#276d5c}button.danger{background:#411f2a;border-color:#7d3548}button.ghost{background:transparent}.wrap{max-width:1250px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}.brand{display:flex;gap:13px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#a78bfa,#70dfff);display:grid;place-items:center;color:#10111d;font-size:25px;font-weight:900}.eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800}.top h1{margin:2px 0;font-size:clamp(23px,4vw,34px);letter-spacing:-.04em}.muted{color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:20px}.side,.panel,.stat{background:rgba(21,23,37,.94);border:1px solid var(--line);border-radius:18px}.side{padding:12px;height:max-content;position:sticky;top:12px}.nav{display:flex;flex-direction:column;gap:6px}.nav button{text-align:left;background:transparent;border-color:transparent;color:var(--muted)}.nav button.active{background:#292442;border-color:#55448a;color:white}.nav button span{display:inline-block;width:27px}.side-note{border-top:1px solid var(--line);margin-top:15px;padding:14px 6px 4px;color:var(--muted);font-size:12px}.content{min-width:0}.view{display:none}.view.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{padding:16px}.stat .label{font-size:12px;color:var(--muted)}.stat .value{font-size:26px;font-weight:800;letter-spacing:-.04em;margin:4px 0}.accent{color:var(--violet)}.cyan{color:var(--cyan)}.green{color:var(--green)}.grid2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.8fr);gap:15px}.panel{padding:18px;margin-bottom:15px}.panel h2{margin:0 0 12px;font-size:18px}.panel h3{margin:0 0 9px;font-size:15px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.progress{height:9px;border-radius:99px;background:#30334a;overflow:hidden;margin:13px 0 8px}.progress>div{height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:99px;transition:width .2s}.calendar-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.month-label{font-size:20px;font-weight:800}.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.weekday{text-align:center;color:var(--muted);font-size:11px;padding:5px 0}.day{min-height:83px;padding:7px 6px;border:1px solid var(--line);border-radius:11px;background:#111320;cursor:pointer;display:flex;flex-direction:column;gap:5px}.day:hover{border-color:var(--violet)}.day.out{opacity:.35}.day.selected{outline:2px solid var(--violet);background:#25213c}.day.today .num{color:var(--cyan)}.num{font-size:13px;font-weight:800}.dots{display:flex;gap:4px}.dot{font-size:10px;padding:3px 4px;border-radius:5px;background:#30334a;color:var(--muted)}.dot.done{background:#174438;color:#81efc0}.dot.missed{background:#4b2430;color:#ff9aaa}.day-footer{margin-top:auto;font-size:10px;color:var(--muted)}.dose-card{padding:13px;border-radius:13px;background:#111320;border:1px solid var(--line);margin-top:9px}.dose-title{display:flex;gap:10px;align-items:center}.dose-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#25213c;color:var(--violet);font-size:20px}.dose-card.cyan-card .dose-icon{background:#172e3b;color:var(--cyan)}.dose-card p{margin:3px 0;color:var(--muted);font-size:12px}.dose-card .row{margin-top:11px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select,textarea{width:100%;background:#10121e;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px 11px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--violet)}textarea{min-height:100px;resize:vertical}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.small{font-size:12px}.pill{display:inline-block;padding:4px 8px;border-radius:99px;font-size:11px;background:#292442;color:#d8cbff}.entry{border-bottom:1px solid var(--line);padding:11px 0}.entry:last-child{border-bottom:0}.empty{padding:20px;text-align:center;color:var(--muted)}.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px}.photo{border:1px solid var(--line);border-radius:12px;padding:8px}.photo img{width:100%;height:140px;object-fit:cover;border-radius:8px;background:#0c0d16}.photo p{font-size:12px;color:var(--muted);margin:6px 0}.notice{border:1px solid #63552d;background:#2a2517;color:#f8df98;padding:12px;border-radius:12px;font-size:12px;margin-bottom:15px}.footer{color:#777d9b;font-size:11px;text-align:center;padding:18px}.hidden{display:none!important}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.side{position:static}.nav{display:grid;grid-template-columns:repeat(3,1fr)}.nav button{font-size:12px;text-align:center;padding:9px 4px}.side-note{display:none}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media(max-width:520px){.wrap{padding:13px}.top{align-items:flex-start;flex-direction:column}.actions button{flex:1}.panel{padding:13px}.day{min-height:65px;padding:5px 3px}.dot{font-size:9px;padding:2px}.day-footer{font-size:9px}.calendar{gap:3px}.formgrid{grid-template-columns:1fr}.stat{padding:12px}.stat .value{font-size:23px}}
+
+/* Ajustes dedicados a móviles */
+@media(max-width:680px){
+  body{font-size:14px}.wrap{padding:10px 10px 22px}.top{gap:12px;margin-bottom:14px}
+  .brand{align-items:flex-start;gap:10px}.logo{width:42px;height:42px;min-width:42px;border-radius:13px;font-size:22px}
+  .top h1{font-size:25px}.top .actions{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .top .actions button{min-height:44px;padding:9px 7px;font-size:12px}.notice{font-size:12px;padding:10px;margin-bottom:12px}
+  .layout{display:flex;flex-direction:column;gap:12px}.side{padding:7px;border-radius:14px;order:0}
+  .nav{display:flex;flex-direction:row;overflow-x:auto;gap:5px;padding-bottom:2px;scrollbar-width:thin}
+  .nav button{flex:0 0 auto;min-width:83px;font-size:11px;padding:10px 8px;border-radius:10px;white-space:nowrap}
+  .nav button span{display:block;width:auto;margin-bottom:3px;font-size:16px}.content{width:100%;min-width:0}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .stat{padding:12px;border-radius:14px;min-width:0}.stat .label{font-size:11px;line-height:1.3}
+  .stat .value{font-size:22px;overflow-wrap:anywhere}.stat .small{font-size:10px}
+  .grid2{display:flex;flex-direction:column;gap:10px}.panel{padding:13px;border-radius:15px;margin-bottom:10px}
+  .panel h2{font-size:17px}.calendar-head{align-items:center;gap:6px}.month-label{font-size:17px}
+  .calendar-head .actions{gap:4px}.calendar-head button{padding:8px 10px;min-width:36px}
+  .calendar{gap:3px}.weekday{font-size:10px}.day{min-height:62px;padding:5px 3px;border-radius:8px;gap:4px;overflow:hidden}
+  .num{font-size:12px}.dots{gap:2px}.dot{font-size:9px;padding:2px 3px;border-radius:4px}
+  .day-footer{font-size:8px;line-height:1.15}.dose-card{padding:10px;margin-top:8px;border-radius:12px}
+  .dose-icon{width:34px;height:34px;min-width:34px}.dose-card .row{align-items:center;flex-wrap:wrap}
+  .dose-card .row button{flex:1;min-height:42px}.field{margin:8px 0}
+  input,select,textarea{font-size:16px;padding:11px;border-radius:10px}button{min-height:42px}
+  .formgrid{grid-template-columns:1fr;gap:5px}.row{gap:8px;flex-wrap:wrap}.actions{gap:6px}
+  .actions button{min-height:42px}.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .photo img{height:125px}.entry .row{align-items:flex-start}#view-backup .actions{display:grid;grid-template-columns:1fr}
+  #view-backup .actions button{text-align:center}.footer{padding:12px 4px;font-size:10px}
+}
+@media(max-width:380px){
+  .wrap{padding:8px}.top h1{font-size:22px}.stats{gap:6px}.stat{padding:10px}
+  .stat .value{font-size:20px}.nav button{min-width:76px;padding:9px 6px}
+  .calendar-head .actions button{padding:7px 8px;min-width:32px}.day{min-height:56px}.dot{font-size:8px;padding:2px}
+}
+@media print{body{background:white;color:#111}.wrap{max-width:none;padding:0}.top,.side,.actions,.no-print,button{display:none!important}.layout{display:block}.panel,.stat{background:white;color:#111;border:1px solid #bbb;break-inside:avoid}.muted,.stat .label,.dose-card p{color:#444}.view{display:none!important}#view-report{display:block!important}.footer{display:none}}
+</style>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#11111d">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mi tratamiento">
+<link rel="icon" href="./icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="brand"><div class="logo">✦</div><div><div class="eyebrow">Seguimiento personal</div><h1>Mi tratamiento</h1><div class="muted small">Almanaque · hábitos · evolución</div></div></div>
+  <div class="actions">
+    <button id="reminderBtn">♧ Activar recordatorios</button>
+    <button id="exportBtn" class="primary">⇩ Exportar Excel</button>
+    <button id="importBtn">⇧ Importar Excel</button>
+    <input id="importFile" type="file" accept=".xlsx,.xls,.csv,.json" class="hidden">
+  </div>
+</header>
+<div class="notice">Registro personal, no indicación médica. Marcá una toma únicamente cuando la hayas realizado. Si olvidás una dosis, no dupliques la siguiente por tu cuenta; seguí las indicaciones de tu profesional.</div>
+<div class="layout">
+  <aside class="side">
+    <nav class="nav">
+      <button class="active" data-view="home"><span>⌂</span>Resumen</button>
+      <button data-view="calendarView"><span>▦</span>Almanaque</button>
+      <button data-view="history"><span>≡</span>Historial</button>
+      <button data-view="evolution"><span>↗</span>Evolución</button>
+      <button data-view="effects"><span>♡</span>Efectos</button>
+      <button data-view="notes"><span>✎</span>Notas médicas</button>
+      <button data-view="backup"><span>⇄</span>Datos y respaldo</button>
+      <button data-view="report"><span>▤</span>Informe imprimible</button>
+    </nav>
+    <div class="side-note">Los datos se guardan en este navegador. Exportá una copia Excel regularmente para tener un respaldo externo.</div>
+  </aside>
+  <main class="content">
+    <section class="view active" id="view-home">
+      <div class="stats">
+        <div class="stat"><div class="label">Día de seguimiento</div><div class="value accent" id="dayCount">Día 1</div><div class="small muted" id="dateRange"></div></div>
+        <div class="stat"><div class="label">Período completado</div><div class="value cyan" id="percent">0%</div><div class="progress"><div id="progressBar" style="width:0%"></div></div></div>
+        <div class="stat"><div class="label">Tomas registradas</div><div class="value green" id="takenCount">0</div><div class="small muted" id="doseRate">de 0 esperadas hasta hoy</div></div>
+        <div class="stat"><div class="label">Próximo hito</div><div class="value" id="remaining">182 días</div><div class="small muted">hasta los 6 meses</div></div>
+      </div>
+      <div class="grid2">
+        <div class="panel">
+          <div class="calendar-head"><div><div class="eyebrow">Tu calendario</div><div class="month-label" id="monthTitle"></div></div><div class="actions"><button id="prevMonth" aria-label="Mes anterior">‹</button><button id="todayBtn">Hoy</button><button id="nextMonth" aria-label="Mes siguiente">›</button></div></div>
+          <div id="calendar" class="calendar"></div>
+          <p class="small muted">Cada día muestra M (mañana) y N (noche). Verde = toma registrada; rojo = omitida confirmada. Lo pendiente queda sin marcar.</p>
+        </div>
+        <div class="panel">
+          <div class="eyebrow">Registro del día</div><h2 id="selectedDateTitle">Hoy</h2>
+          <div id="doseControls"></div>
+          <div class="field"><label for="dayNote">Nota del día (opcional)</label><textarea id="dayNote" placeholder="Cómo te sentiste, observaciones..."></textarea></div>
+          <button class="primary" id="saveDayNote">Guardar nota del día</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="row"><div><h2>Resumen del tratamiento</h2><div class="muted small">Fecha inicial y objetivo de seis meses</div></div><span class="pill" id="statusPill">En seguimiento</span></div>
+        <div class="formgrid">
+          <div class="field"><label for="startDate">Fecha de inicio</label><input type="date" id="startDate" value="2026-10-15"></div>
+          <div class="field"><label for="targetDate">Fecha objetivo calculada</label><input type="date" id="targetDate" readonly></div>
+        </div>
+        <button id="saveSettings" class="good">Guardar fecha de inicio</button>
+      </div>
+    </section>
+    <section class="view" id="view-calendarView">
+      <div class="panel"><div class="calendar-head"><div><div class="eyebrow">Vista mensual</div><div class="month-label" id="monthTitle2"></div></div><div class="actions"><button id="prevMonth2">‹</button><button id="todayBtn2">Hoy</button><button id="nextMonth2">›</button></div></div><div id="calendar2" class="calendar"></div><p class="muted small">Seleccioná cualquier fecha para editar las tomas y consultar sus notas.</p></div>
+    </section>
+    <section class="view" id="view-history">
+      <div class="panel"><div class="row"><div><h2>Historial de tomas</h2><p class="muted small">Solo aparecen estados que registraste explícitamente.</p></div><button id="historyExport">Exportar Excel</button></div><div id="historyList"></div></div>
+    </section>
+    <section class="view" id="view-evolution">
+      <div class="panel"><h2>Fotos comparativas y evolución</h2><p class="muted small">Tomá las fotos con iluminación, distancia y ángulo similares. Las imágenes se guardan localmente en este navegador; exportá un respaldo y conservá las fotos originales aparte.</p>
+        <div class="formgrid"><div class="field"><label for="photoDate">Fecha</label><input id="photoDate" type="date"></div><div class="field"><label for="photoFile">Agregar foto</label><input id="photoFile" type="file" accept="image/*"></div></div>
+        <div class="field"><label for="photoNote">Descripción / zona</label><input id="photoNote" placeholder="Ej. frontal, coronilla, luz natural"></div><button class="primary" id="addPhoto">Guardar foto comparativa</button>
+        <div class="field"><label for="evolutionNote">Nota semanal de evolución</label><textarea id="evolutionNote" placeholder="Caída percibida, densidad, cambios observados..."></textarea></div><button id="saveEvolutionNote">Guardar nota de evolución</button>
+      </div><div class="panel"><h2>Galería</h2><div class="photo-grid" id="photoGrid"></div></div>
+    </section>
+    <section class="view" id="view-effects">
+      <div class="panel"><h2>Registro de efectos secundarios</h2><p class="muted small">Anotá síntomas para comentarlos con tu médico. No uses este registro para autodiagnosticarte.</p>
+        <div class="formgrid"><div class="field"><label for="effectDate">Fecha</label><input id="effectDate" type="date"></div><div class="field"><label for="effectSeverity">Intensidad percibida</label><select id="effectSeverity"><option>Leve</option><option>Moderada</option><option>Intensa</option></select></div></div>
+        <div class="field"><label for="effectType">Síntoma / efecto</label><input id="effectType" placeholder="Ej. mareos, palpitaciones, hinchazón..."></div><div class="field"><label for="effectDetail">Detalle y duración</label><textarea id="effectDetail" placeholder="Cuándo comenzó, cuánto duró, observaciones..."></textarea></div><button class="primary" id="addEffect">Guardar registro</button>
+      </div><div class="panel"><h2>Registros anteriores</h2><div id="effectList"></div></div>
+      <div class="notice">Si con minoxidil oral presentás dolor de pecho, dificultad para respirar, desmayo o latidos rápidos/irregulares persistentes, buscá atención médica urgente.</div>
+    </section>
+    <section class="view" id="view-notes">
+      <div class="panel"><h2>Notas para el dermatólogo</h2><div class="field"><label for="medicalNoteDate">Fecha</label><input id="medicalNoteDate" type="date"></div><div class="field"><label for="medicalNoteTitle">Título</label><input id="medicalNoteTitle" placeholder="Ej. Consulta de control"></div><div class="field"><label for="medicalNoteBody">Nota</label><textarea id="medicalNoteBody" placeholder="Preguntas, cambios, dudas para la próxima consulta..."></textarea></div><button class="primary" id="addMedicalNote">Guardar nota</button></div>
+      <div class="panel"><h2>Notas guardadas</h2><div id="medicalNotesList"></div></div>
+    </section>
+    <section class="view" id="view-backup">
+      <div class="panel"><h2>Importar y exportar datos</h2><p>Exportá un libro Excel con hojas de configuración, tomas, notas, efectos, evolución y resumen. Para recuperar los datos, importá ese archivo en esta página.</p><div class="actions"><button class="primary" id="exportBtn2">⇩ Exportar Excel (.xlsx)</button><button id="importBtn2">⇧ Importar Excel / CSV</button><button id="jsonExport">Respaldo completo JSON</button><input id="importFile2" type="file" accept=".xlsx,.xls,.csv,.json" class="hidden"></div><div class="field"><label for="importMode">Al importar, ¿qué hacer?</label><select id="importMode"><option value="merge">Combinar con los datos actuales (recomendado)</option><option value="replace">Reemplazar los datos actuales</option></select></div><p class="muted small">La importación valida la estructura antes de aplicar cambios. Las fotos grandes no se incluyen en Excel; el respaldo JSON puede incluirlas, pero podría ser pesado.</p><div id="backupStatus" class="small muted"></div></div>
+      <div class="panel"><h2>Datos locales</h2><div id="localInfo" class="muted small"></div><button class="danger" id="clearData">Borrar todos los datos locales</button></div>
+    </section>
+    <section class="view" id="view-report">
+      <div class="panel"><div class="row"><div><div class="eyebrow">Informe de seguimiento</div><h2>Resumen para consulta médica</h2></div><button class="no-print primary" id="printReport">Imprimir / Guardar PDF</button></div><div id="reportContent"></div></div>
+    </section>
+  </main>
+</div>
+<div class="footer">Mi tratamiento · Tus registros son privados en este dispositivo. No reemplaza el seguimiento profesional.</div>
+</div>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const addMonths=(iso,n)=>{let d=new Date(iso+'T12:00:00');let day=d.getDate();d.setMonth(d.getMonth()+n);if(d.getDate()<day)d.setDate(0);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const fmt=iso=>{if(!iso)return '—';let d=new Date(iso+'T12:00:00');return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short',year:'numeric'})};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const defaultState=()=>({version:1,startDate:'2026-10-15',selectedDate:todayISO(),viewMonth:todayISO().slice(0,7),doses:{},dayNotes:{},effects:[],medicalNotes:[],evolutionNotes:[],photos:[],reminders:{morning:'08:00',night:'21:00',enabled:false,lastNotified:{}},});
+let state;
+try{state=JSON.parse(localStorage.getItem('treatmentTrackerV1'))||defaultState()}catch(e){state=defaultState()}
+if(!state.doses)state.doses={};if(!state.dayNotes)state.dayNotes={};if(!state.photos)state.photos=[];if(!state.effects)state.effects=[];if(!state.medicalNotes)state.medicalNotes=[];if(!state.evolutionNotes)state.evolutionNotes=[];
+let selected=state.selectedDate||todayISO(), viewMonth=state.viewMonth||todayISO().slice(0,7), reminderInterval=null;
+function save(){state.selectedDate=selected;state.viewMonth=viewMonth;try{localStorage.setItem('treatmentTrackerV1',JSON.stringify(state));}catch(e){$('backupStatus').textContent='No se pudo guardar todo localmente (posible falta de espacio). Exportá un respaldo y quitá fotos grandes.'}renderStats();renderCalendars();renderDoseControls();renderHistory();renderEffects();renderMedicalNotes();renderPhotos();renderLocalInfo();renderReport();}
+function getDose(date,key){return (state.doses[date]||{})[key]||{status:'pending',time:'',note:''}}
+function setDose(date,key,patch){if(!state.doses[date])state.doses[date]={};state.doses[date][key]={...getDose(date,key),...patch};if(state.doses[date][key].status==='pending'&&!state.doses[date][key].time)state.doses[date][key].time='';save()}
+function nav(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));if(view==='report')renderReport();if(view==='history')renderHistory()}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.view)));
+function renderStats(){
+ const start=state.startDate||'2026-10-15',end=addMonths(start,6),today=todayISO(),startD=new Date(start+'T12:00:00'),todayD=new Date(today+'T12:00:00'),endD=new Date(end+'T12:00:00');
+ const elapsed=Math.max(0,Math.floor((todayD-startD)/86400000)+1),total=Math.max(1,Math.round((endD-startD)/86400000)+1),pct=Math.min(100,Math.round(elapsed/total*100));
+ $('dayCount').textContent='Día '+elapsed;$('dateRange').textContent=fmt(start);$('percent').textContent=pct+'%';$('progressBar').style.width=pct+'%';$('remaining').textContent=Math.max(0,Math.ceil((endD-todayD)/86400000))+' días';$('targetDate').value=end;$('startDate').value=start;
+ let count=0,expected=0;for(let d=new Date(start+'T12:00:00');d<=todayD;d.setDate(d.getDate()+1)){let iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;if(iso<start)continue;for(let k of ['morning','night']){expected++;if(getDose(iso,k).status==='taken')count++}}
+ $('takenCount').textContent=count;$('doseRate').textContent=`de ${expected} tomas posibles desde el inicio`;$('statusPill').textContent=today<start?'Aún no iniciado':today>end?'Período de 6 meses cumplido':'En seguimiento';
+}
+function makeCalendar(elId,titleId){
+ const root=$(elId),[y,m]=viewMonth.split('-').map(Number),first=new Date(y,m-1,1),last=new Date(y,m,0),offset=(first.getDay()+6)%7;
+ $(titleId).textContent=first.toLocaleDateString('es-AR',{month:'long',year:'numeric'});root.innerHTML='';
+ ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].forEach(w=>{let x=document.createElement('div');x.className='weekday';x.textContent=w;root.appendChild(x)});
+ for(let i=0;i<offset;i++){let x=document.createElement('div');x.className='day out';root.appendChild(x)}
+ for(let n=1;n<=last.getDate();n++){let iso=`${y}-${String(m).padStart(2,'0')}-${String(n).padStart(2,'0')}`,a=getDose(iso,'morning').status,b=getDose(iso,'night').status;
+ let x=document.createElement('div');x.className='day'+(iso===selected?' selected':'')+(iso===todayISO()?' today':'');x.innerHTML=`<div class="num">${n}</div><div class="dots"><span class="dot ${a==='taken'?'done':a==='missed'?'missed':''}">M</span><span class="dot ${b==='taken'?'done':b==='missed'?'missed':''}">N</span></div><div class="day-footer">${a==='taken'&&b==='taken'?'Completo':a==='missed'||b==='missed'?'Con omisión':''}</div>`;
+ x.addEventListener('click',()=>{selected=iso;state.selectedDate=iso;save();});root.appendChild(x)}
+ while(root.children.length<49){let x=document.createElement('div');x.className='day out';root.appendChild(x)}
+}
+function renderCalendars(){makeCalendar('calendar','monthTitle');makeCalendar('calendar2','monthTitle2');$('selectedDateTitle').textContent=fmt(selected)+(selected===todayISO()?' · Hoy':'');$('dayNote').value=state.dayNotes[selected]||''}
+function renderDoseControls(){
+ const root=$('doseControls');root.innerHTML='';
+ const defs=[['morning','☼','Toma de la mañana','Dutasterida','cyan-card'],['night','☾','Toma de la noche','Minoxidil','']];
+ defs.forEach(([key,ico,title,name,cls])=>{let d=getDose(selected,key),card=document.createElement('div');card.className='dose-card '+cls;card.innerHTML=`<div class="dose-title"><div class="dose-icon">${ico}</div><div><strong>${title}</strong><p>${name}</p></div></div><div class="field"><label>Estado de la toma</label><select data-status="${key}"><option value="pending">Pendiente / sin registrar</option><option value="taken">Tomada</option><option value="missed">No tomada</option></select></div><div class="formgrid"><div class="field"><label>Hora (opcional)</label><input type="time" data-time="${key}"></div><div class="field"><label>Nota (opcional)</label><input data-note="${key}" placeholder="Observación breve"></div></div><div class="row"><span class="small muted" data-label="${key}"></span><button class="good" data-taken="${key}">✓ Marcar tomada</button></div>`;
+ root.appendChild(card);card.querySelector(`[data-status="${key}"]`).value=d.status;card.querySelector(`[data-time="${key}"]`).value=d.time||'';card.querySelector(`[data-note="${key}"]`).value=d.note||'';card.querySelector(`[data-label="${key}"]`).textContent=d.status==='taken'?'Toma registrada':d.status==='missed'?'Marcada como no tomada':'Sin confirmar';
+ card.querySelector(`[data-status="${key}"]`).addEventListener('change',e=>setDose(selected,key,{status:e.target.value,time:e.target.value==='taken'?(getDose(selected,key).time||new Date().toTimeString().slice(0,5)):getDose(selected,key).time}));
+ card.querySelector(`[data-time="${key}"]`).addEventListener('change',e=>setDose(selected,key,{time:e.target.value}));
+ card.querySelector(`[data-note="${key}"]`).addEventListener('change',e=>setDose(selected,key,{note:e.target.value}));
+ card.querySelector(`[data-taken="${key}"]`).addEventListener('click',()=>setDose(selected,key,{status:'taken',time:getDose(selected,key).time||new Date().toTimeString().slice(0,5)}));
+ });
+}
+$('saveDayNote').onclick=()=>{state.dayNotes[selected]=$('dayNote').value;save();$('saveDayNote').textContent='Guardado ✓';setTimeout(()=>$('saveDayNote').textContent='Guardar nota del día',1200)};
+function monthShift(delta){let [y,m]=viewMonth.split('-').map(Number),d=new Date(y,m-1+delta,1);viewMonth=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;state.viewMonth=viewMonth;save()}
+['prevMonth','prevMonth2'].forEach(id=>$(id).onclick=()=>monthShift(-1));['nextMonth','nextMonth2'].forEach(id=>$(id).onclick=()=>monthShift(1));['todayBtn','todayBtn2'].forEach(id=>$(id).onclick=()=>{selected=todayISO();viewMonth=selected.slice(0,7);save()});
+$('saveSettings').onclick=()=>{let v=$('startDate').value;if(!v){alert('Elegí una fecha de inicio válida.');return}if(v>todayISO()&&!confirm('La fecha está en el futuro. ¿Querés continuar?'))return;state.startDate=v;save();alert('Fecha de inicio guardada.')};
+function renderHistory(){let rows=[];Object.keys(state.doses).sort().reverse().forEach(date=>['morning','night'].forEach(key=>{let d=getDose(date,key);if(d.status!=='pending')rows.push({date,key,d})}));$('historyList').innerHTML=rows.length?rows.map(({date,key,d})=>`<div class="entry"><div class="row"><strong>${fmt(date)} · ${key==='morning'?'Mañana — Dutasterida':'Noche — Minoxidil'}</strong><span class="pill">${d.status==='taken'?'Tomada':'No tomada'}</span></div><div class="small muted">${d.time?'Hora: '+esc(d.time)+' · ':''}${esc(d.note||'Sin nota')}</div></div>`).join(''):'<div class="empty">Todavía no hay tomas confirmadas.</div>'}
+function renderEffects(){$('effectList').innerHTML=state.effects.length?[...state.effects].reverse().map((e,i)=>`<div class="entry"><div class="row"><strong>${esc(e.type)}</strong><span class="pill">${esc(e.severity)}</span></div><div class="small muted">${fmt(e.date)} · ${esc(e.detail||'Sin detalle')}</div><button class="danger small" data-delete-effect="${state.effects.length-1-i}">Eliminar</button></div>`).join(''):'<div class="empty">Sin efectos registrados.</div>';document.querySelectorAll('[data-delete-effect]').forEach(b=>b.onclick=()=>{if(confirm('¿Eliminar este registro?')){state.effects.splice(Number(b.dataset.deleteEffect),1);save()}})}
+$('addEffect').onclick=()=>{let type=$('effectType').value.trim();if(!type){alert('Escribí el síntoma o efecto que querés registrar.');return}state.effects.push({date:$('effectDate').value||todayISO(),severity:$('effectSeverity').value,type,detail:$('effectDetail').value,createdAt:new Date().toISOString()});$('effectType').value='';$('effectDetail').value='';save()};
+function renderMedicalNotes(){$('medicalNotesList').innerHTML=state.medicalNotes.length?[...state.medicalNotes].reverse().map((n,i)=>`<div class="entry"><strong>${esc(n.title||'Nota médica')}</strong><div class="small muted">${fmt(n.date)}</div><p>${esc(n.body).replace(/\n/g,'<br>')}</p><button class="danger small" data-del-note="${state.medicalNotes.length-1-i}">Eliminar</button></div>`).join(''):'<div class="empty">Todavía no guardaste notas.</div>';document.querySelectorAll('[data-del-note]').forEach(b=>b.onclick=()=>{if(confirm('¿Eliminar esta nota?')){state.medicalNotes.splice(+b.dataset.delNote,1);save()}})}
+$('addMedicalNote').onclick=()=>{let body=$('medicalNoteBody').value.trim();if(!body){alert('Escribí el contenido de la nota.');return}state.medicalNotes.push({date:$('medicalNoteDate').value||todayISO(),title:$('medicalNoteTitle').value,body});$('medicalNoteTitle').value='';$('medicalNoteBody').value='';save()};
+function renderPhotos(){$('photoGrid').innerHTML=state.photos.length?[...state.photos].reverse().map((p,i)=>`<div class="photo"><img src="${p.data}" alt="Foto comparativa"><strong>${fmt(p.date)}</strong><p>${esc(p.note||'Sin descripción')}</p><button class="danger small" data-del-photo="${state.photos.length-1-i}">Eliminar</button></div>`).join(''):'<div class="empty">Todavía no hay fotos comparativas.</div>';document.querySelectorAll('[data-del-photo]').forEach(b=>b.onclick=()=>{if(confirm('¿Eliminar esta foto?')){state.photos.splice(+b.dataset.delPhoto,1);save()}})}
+$('addPhoto').onclick=async()=>{let f=$('photoFile').files[0];if(!f){alert('Elegí una imagen.');return}if(!f.type.startsWith('image/')){alert('El archivo debe ser una imagen.');return}try{let data=await compressImage(f);state.photos.push({date:$('photoDate').value||todayISO(),note:$('photoNote').value,data});$('photoFile').value='';$('photoNote').value='';save()}catch(e){alert('No se pudo procesar la imagen. Probá con otra foto.')}};
+function compressImage(file){return new Promise((resolve,reject)=>{let img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let scale=Math.min(1,1100/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);resolve(c.toDataURL('image/jpeg',.76))};img.onerror=reject;img.src=url})}
+$('saveEvolutionNote').onclick=()=>{let note=$('evolutionNote').value.trim();if(!note){alert('Escribí una nota de evolución.');return}state.evolutionNotes.push({date:todayISO(),note});$('evolutionNote').value='';save();alert('Nota de evolución guardada.')};
+function renderLocalInfo(){let bytes=0;try{bytes=new Blob([localStorage.getItem('treatmentTrackerV1')||'']).size}catch(e){}$('localInfo').textContent=`Inicio: ${fmt(state.startDate)} · Fotos guardadas: ${state.photos.length} · Efectos registrados: ${state.effects.length} · Espacio aproximado usado: ${(bytes/1024).toFixed(1)} KB.`}
+function renderReport(){let start=state.startDate||'2026-10-15',end=addMonths(start,6),t=0,m=0,notes=Object.entries(state.dayNotes).filter(([d,n])=>n&&d>=start&&d<=todayISO());Object.entries(state.doses).forEach(([date,ds])=>Object.entries(ds).forEach(([k,v])=>{if(date>=start&&date<=todayISO()){if(v.status==='taken')t++;if(v.status==='missed')m++}}));$('reportContent').innerHTML=`<p><strong>Inicio del seguimiento:</strong> ${fmt(start)}<br><strong>Objetivo orientativo de seis meses:</strong> ${fmt(end)}<br><strong>Fecha del informe:</strong> ${fmt(todayISO())}</p><div class="stats"><div class="stat"><div class="label">Tomas registradas</div><div class="value">${t}</div></div><div class="stat"><div class="label">No tomadas</div><div class="value">${m}</div></div><div class="stat"><div class="label">Efectos registrados</div><div class="value">${state.effects.length}</div></div><div class="stat"><div class="label">Fotos comparativas</div><div class="value">${state.photos.length}</div></div></div><h3>Notas diarias</h3>${notes.length?notes.map(([d,n])=>`<p><strong>${fmt(d)}:</strong> ${esc(n)}</p>`).join(''):'<p class="muted">Sin notas diarias.</p>'}<h3>Efectos secundarios registrados</h3>${state.effects.length?[...state.effects].map(e=>`<p><strong>${fmt(e.date)} · ${esc(e.type)}</strong> (${esc(e.severity)})<br>${esc(e.detail||'Sin detalle')}</p>`).join(''):'<p class="muted">Sin registros.</p>'}<h3>Notas para el dermatólogo</h3>${state.medicalNotes.length?state.medicalNotes.map(n=>`<p><strong>${fmt(n.date)} · ${esc(n.title)}</strong><br>${esc(n.body)}</p>`).join(''):'<p class="muted">Sin notas.</p>'}<p class="small muted">Este informe refleja únicamente los datos guardados por el usuario y no constituye una evaluación médica.</p>`}
+$('printReport').onclick=()=>window.print();
+function allRows(){return Object.keys(state.doses).sort().flatMap(date=>['morning','night'].map(key=>({Fecha:date,Toma:key==='morning'?'Mañana':'Noche',Medicamento:key==='morning'?'Dutasterida':'Minoxidil',Estado:getDose(date,key).status,Hora:getDose(date,key).time||'',Nota:getDose(date,key).note||''})).filter(r=>r.Estado!=='pending'))}
+function exportExcel(){const wb=window.XLSX?XLSX.utils.book_new():null;if(!wb){exportCSV();return}
+ const sheets={
+ 'Configuracion':[{Clave:'fecha_inicio',Valor:state.startDate},{Clave:'fecha_objetivo_6_meses',Valor:addMonths(state.startDate,6)},{Clave:'version',Valor:1}],
+ 'Tomas':allRows(),
+ 'Notas diarias':Object.entries(state.dayNotes).map(([Fecha,Nota])=>({Fecha,Nota})),
+ 'Efectos':state.effects.map(e=>({Fecha:e.date,Intensidad:e.severity,Sintoma:e.type,Detalle:e.detail||''})),
+ 'Notas medicas':state.medicalNotes.map(n=>({Fecha:n.date,Titulo:n.title||'',Nota:n.body})),
+ 'Evolucion':state.evolutionNotes.map(n=>({Fecha:n.date,Nota:n.note})),
+ 'Resumen':[{'Tomas registradas':allRows().filter(r=>r.Estado==='taken').length,'No tomadas':allRows().filter(r=>r.Estado==='missed').length,'Fotos (no incluidas)':state.photos.length}]
+ };
+ Object.entries(sheets).forEach(([name,rows])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows.length?rows:[{Info:'Sin registros'}]),name));
+ XLSX.writeFile(wb,`seguimiento_tratamiento_${todayISO()}.xlsx`);
+}
+function exportCSV(){let rows=allRows(),keys=['Fecha','Toma','Medicamento','Estado','Hora','Nota'],csv=[keys.join(';'),...rows.map(r=>keys.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(';'))].join('\r\n');downloadBlob('\ufeff'+csv,`seguimiento_tratamiento_${todayISO()}.csv`,'text/csv;charset=utf-8');$('backupStatus').textContent='Librería Excel no disponible: se exportó CSV compatible con Excel. Para libro .xlsx, abrí la página con conexión a internet.'}
+function downloadBlob(data,name,type){let a=document.createElement('a'),url=URL.createObjectURL(new Blob([data],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function exportJSON(){downloadBlob(JSON.stringify(state,null,2),`respaldo_tratamiento_${todayISO()}.json`,'application/json')}
+$('exportBtn').onclick=exportExcel;$('exportBtn2').onclick=exportExcel;$('historyExport').onclick=exportExcel;$('jsonExport').onclick=exportJSON;
+function clickImport(){($('importFile').value='');$('importFile').click()}$('importBtn').onclick=clickImport;$('importBtn2').onclick=()=>{ $('importFile2').value='';$('importFile2').click()};
+function importFile(file){if(!file)return;let mode=$('importMode').value;const reader=new FileReader();reader.onload=async()=>{try{let imported;if(file.name.toLowerCase().endsWith('.json')){imported=JSON.parse(reader.result);if(!imported||typeof imported!=='object'||!imported.doses)throw Error('El JSON no tiene el formato de respaldo esperado.')}else if(file.name.toLowerCase().endsWith('.csv')){imported=fromCSV(String(reader.result))}else{if(!window.XLSX)throw Error('No está disponible el lector Excel. Conectate a internet y volvé a abrir la página, o importá un archivo JSON de respaldo.');let wb=XLSX.read(reader.result,{type:'array'});imported=fromWorkbook(wb)}
+ if(!imported||typeof imported!=='object')throw Error('Formato no válido.');
+ if(mode==='replace'){if(!confirm('Esto reemplazará los datos actuales. ¿Continuar?'))return;state={...defaultState(),...imported};}
+ else state=mergeState(state,imported);
+ if(!state.startDate||!/^\d{4}-\d{2}-\d{2}$/.test(state.startDate))throw Error('La fecha de inicio no es válida.');
+ save();$('backupStatus').textContent='Importación completada. Revisá el almanaque y el historial.';alert('Importación completada.');}
+ catch(e){alert('No se importaron los datos: '+e.message)}};
+ if(file.name.toLowerCase().endsWith('.json')||file.name.toLowerCase().endsWith('.csv'))reader.readAsText(file);else reader.readAsArrayBuffer(file);
+}
+$('importFile').onchange=e=>importFile(e.target.files[0]);$('importFile2').onchange=e=>importFile(e.target.files[0]);
+function fromWorkbook(wb){let out=defaultState(),config=XLSX.utils.sheet_to_json(wb.Sheets['Configuracion']||{});config.forEach(r=>{if(r.Clave==='fecha_inicio'&&typeof r.Valor==='string')out.startDate=r.Valor});let doseSheet=wb.Sheets['Tomas'];if(doseSheet){let rows=XLSX.utils.sheet_to_json(doseSheet);rows.forEach(r=>{let date=normalizeDate(r.Fecha);if(!date||!['Mañana','Noche'].includes(r.Toma)||!['taken','missed','pending'].includes(r.Estado))return;let k=r.Toma==='Mañana'?'morning':'night';if(!out.doses[date])out.doses[date]={};out.doses[date][k]={status:r.Estado,time:String(r.Hora||''),note:String(r.Nota||'')}})}
+ const ns=wb.Sheets['Notas diarias'];if(ns)XLSX.utils.sheet_to_json(ns).forEach(r=>{let d=normalizeDate(r.Fecha);if(d&&r.Nota)out.dayNotes[d]=String(r.Nota)});
+ const es=wb.Sheets['Efectos'];if(es)out.effects=XLSX.utils.sheet_to_json(es).map(r=>({date:normalizeDate(r.Fecha)||todayISO(),severity:String(r.Intensidad||'Leve'),type:String(r.Sintoma||''),detail:String(r.Detalle||'')})).filter(e=>e.type);
+ const ms=wb.Sheets['Notas medicas'];if(ms)out.medicalNotes=XLSX.utils.sheet_to_json(ms).map(r=>({date:normalizeDate(r.Fecha)||todayISO(),title:String(r.Titulo||''),body:String(r.Nota||'')})).filter(n=>n.body);
+ const ev=wb.Sheets['Evolucion'];if(ev)out.evolutionNotes=XLSX.utils.sheet_to_json(ev).map(r=>({date:normalizeDate(r.Fecha)||todayISO(),note:String(r.Nota||'')})).filter(n=>n.note);
+ return out}
+function fromCSV(text){let lines=text.replace(/^\\uFEFF/,'').trim().split(/\\r?\\n/);if(lines.length<2)throw Error('El CSV no contiene filas de datos.');let sep=lines[0].includes(';')?';':',';function parseLine(line){let out=[],cur='',quoted=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&quoted&&line[i+1]==='"'){cur+='"';i++}else if(c==='"')quoted=!quoted;else if(c===sep&&!quoted){out.push(cur);cur=''}else cur+=c}out.push(cur);return out}let headers=parseLine(lines.shift()).map(x=>x.trim()),rows=lines.map(line=>{let vals=parseLine(line),o={};headers.forEach((h,i)=>o[h]=vals[i]||'');return o});let out=defaultState();rows.forEach(r=>{let date=normalizeDate(r.Fecha);if(!date||!['Mañana','Noche'].includes(r.Toma)||!['taken','missed','pending'].includes(r.Estado))return;let key=r.Toma==='Mañana'?'morning':'night';if(!out.doses[date])out.doses[date]={};out.doses[date][key]={status:r.Estado,time:String(r.Hora||''),note:String(r.Nota||'')}});if(!Object.keys(out.doses).length)throw Error('No encontré columnas válidas Fecha, Toma y Estado en el CSV.');return out}
+function normalizeDate(v){if(!v)return null;if(typeof v==='number'&&window.XLSX){let o=XLSX.SSF.parse_date_code(v);return o?`${o.y}-${String(o.m).padStart(2,'0')}-${String(o.d).padStart(2,'0')}`:null}let s=String(v).slice(0,10);if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;let m=s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/);return m?`${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`:null}
+function mergeState(a,b){let out={...a,...b,doses:{...a.doses},dayNotes:{...a.dayNotes},effects:[...a.effects],medicalNotes:[...a.medicalNotes],evolutionNotes:[...a.evolutionNotes],photos:[...a.photos]};Object.entries(b.doses||{}).forEach(([d,ds])=>{out.doses[d]={...(out.doses[d]||{}),...ds}});out.dayNotes={...a.dayNotes,...(b.dayNotes||{})};for(let k of ['effects','medicalNotes','evolutionNotes','photos']){let seen=new Set(out[k].map(x=>JSON.stringify(x)));(b[k]||[]).forEach(x=>{let s=JSON.stringify(x);if(!seen.has(s)){out[k].push(x);seen.add(s)}})}return out}
+$('clearData').onclick=()=>{if(confirm('¿Seguro? Se borrarán todos los registros guardados en este navegador. Exportá un respaldo antes si querés conservarlos.')){localStorage.removeItem('treatmentTrackerV1');state=defaultState();selected=todayISO();viewMonth=selected.slice(0,7);save()}};
+$('reminderBtn').onclick=async()=>{if(!('Notification'in window)){alert('Este navegador no permite notificaciones. Podés usar los recordatorios dentro de la página mientras esté abierta.');return}let p=await Notification.requestPermission();if(p==='granted'){state.reminders.enabled=true;save();checkReminders();alert('Recordatorios activados. Para recibir avisos, mantené la página abierta y permití las notificaciones del navegador.')}else alert('No se concedió permiso para notificaciones.')};
+function checkReminders(){if(!state.reminders?.enabled||!('Notification'in window)||Notification.permission!=='granted')return;let now=new Date(),date=todayISO(),hm=now.toTimeString().slice(0,5);[['morning','08:00','Dutasterida'],['night','21:00','Minoxidil']].forEach(([key,time,name])=>{let d=getDose(date,key),last=state.reminders.lastNotified||{};if(hm===time&&d.status==='pending'&&last[date+key]!==date){new Notification('Recordatorio de tratamiento',{body:`Revisá tu registro de la toma de ${key==='morning'?'la mañana':'la noche'} (${name}).`});if(!state.reminders.lastNotified)state.reminders.lastNotified={};state.reminders.lastNotified[date+key]=date;try{localStorage.setItem('treatmentTrackerV1',JSON.stringify(state))}catch(e){}}})}
+if(reminderInterval)clearInterval(reminderInterval);reminderInterval=setInterval(checkReminders,30000);
+$('photoDate').value=todayISO();$('effectDate').value=todayISO();$('medicalNoteDate').value=todayISO();
+renderStats();renderCalendars();renderDoseControls();renderHistory();renderEffects();renderMedicalNotes();renderPhotos();renderLocalInfo();renderReport();
+})();
+</script>
+
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+</script>
+
+</body>
+</html>
